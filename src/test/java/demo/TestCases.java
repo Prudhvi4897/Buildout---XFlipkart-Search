@@ -1,6 +1,7 @@
 package demo;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -53,11 +54,52 @@ public class TestCases {
         driver.manage().window().maximize();
     }
 
-    @AfterTest
-    public void endTest()
-    {
-        driver.close();
-        driver.quit();
+    @Test 
+    public void testCase01() throws InterruptedException {
+        System.out.println("TestCase01: Started the testCase01");
+        driver.get("https://www.flipkart.com/");
+        Wrappers obj = new Wrappers(driver);
+        obj.searchProduct("Washing Machine");
+        WebElement PopularityButton = driver.findElement(By.xpath("//div[contains(text(),'Popularity')]"));
+        obj.clickOnMe(PopularityButton);
+        obj.countLessThanFour();
+        System.out.println("TestCase01: End the testCase01"); 
+    }
 
+    @Test
+    public void testCase02() throws InterruptedException {
+        System.out.println("TestCase02: Started the testCase02");
+        driver.get("https://www.flipkart.com/");
+        Wrappers obj = new Wrappers(driver);
+        obj.closingLoginPopUP();
+        obj.searchProduct("iPhone");
+        obj.printNameAndDiscount();
+        System.out.println("TestCase02: Ended the testCase02");
+    }
+
+    
+    @Test
+    public void testCase03() throws InterruptedException {
+        System.out.println("TestCase03: Started the testCase03");
+        driver.get("https://www.flipkart.com/");
+        Wrappers obj = new Wrappers(driver);
+        obj.closingLoginPopUP();
+        obj.searchProduct("Coffee Mug");
+        WebElement rating4AndAboveElement = driver.findElement(By.xpath("//label[@class='tJjCVx _3DvUAf']/div[2][contains(text(),'4')]"));
+        obj.clickOnMe(rating4AndAboveElement);
+        List<String> result = obj.titleAndImageUrl();
+        for (String s : result) {
+            System.out.println(s);
+        }
+        System.out.println("Ending Test Case 03");
+    }
+
+
+    @AfterTest
+    public void endTest() {
+        if (driver != null) {
+            driver.close();
+            driver.quit();
+        }
     }
 }
